@@ -1,0 +1,254 @@
+CREATE TABLE  ZOO( 
+      ZOO_ID NUMBER(3),
+      CITY VARCHAR2(50),
+      STREET VARCHAR2(50),
+      Nr NUMBER(3),
+      ZOO_NAME VARCHAR2(50),
+      OPENING_TIMES VARCHAR2(50));
+      
+     alter table ZOO
+     add constraint ZOO_ID_PK primary key (ZOO_ID);
+     alter table ZOO
+     add constraint ZOO_ID_NN check ("ZOO_ID" IS NOT NULL);
+      
+      
+      CREATE TABLE CLIENTS(
+      CLIENT_ID NUMBER(2),
+      SURNAME VARCHAR2(30),
+      GIVEN_NAME VARCHAR2(30),
+      STREET VARCHAR2(50),
+      CITY VARCHAR2(40),
+      COUNTRY VARCHAR2(40),
+      EMAIL VARCHAR(50));
+  
+      alter table CLIENTS
+      add constraint CLIENT_ID_PK primary key (CLIENT_ID);
+      alter table ZOO
+      add constraint CLIENT_ID_NN check ("CLIENT_ID" IS NOT NULL);
+       
+   
+       CREATE TABLE GUIDE(
+       DESCRIPTIONS VARCHAR2(500),
+       ANIMAL_ID NUMBER(3),
+       ZOO_ID NUMBER(2));
+       
+       alter table GUIDE
+      add constraint ANIMAL_ID_FK foreign key (ANIMAL_ID)  references ANIMAL (ANIMAL_ID);
+      alter table GUIDE
+       add constraint ZOO_ID_FK foreign key (ZOO_ID) references ZOO (ZOO_ID);
+      
+  
+          CREATE TABLE ANIMAL(
+          ANIMAL_ID NUMBER(3) CONSTRAINT ANIMAL_ID_PK PRIMARY KEY,
+          GENDER VARCHAR2(10),
+          HEIGHT DECIMAL (20,3),
+          MASS DECIMAL (20,3),
+          AGE NUMBER(4),
+          CAGE_NUMBER NUMBER(5),
+          FEEDING_TIMES VARCHAR(20),
+          SPECIES_ID  NUMBER(4));
+      
+          ALTER TABLE ANIMAL
+          ADD CONSTRAINT SPECIES_ID_FK FOREIGN KEY (SPECIES_ID) REFERENCES SPECIES (SPECIES_ID);
+  
+       CREATE TABLE SPECIES(
+       SPECIES_ID NUMBER(4) CONSTRAINTS SPECIES_ID_PK PRIMARY KEY,
+       SPECIES_NAME VARCHAR2(50),
+       PHYSICAL_CHARACTERISTICS VARCHAR2(400),
+       DIET VARCHAR2(500));
+       
+       CREATE TABLE EMPLOYEES(
+       EMPLOYEES_ID NUMBER(2) CONSTRAINTS EMPLOYEES_ID_PK PRIMARY KEY,
+       SURNAME  VARCHAR2(30),
+       GIVEN_NAME  VARCHAR(30),
+       TELEPHONE  VARCHAR(20),
+       DEPARTMENTS VARCHAR(40),
+       SALARY   DECIMAL(20,2));
+   
+   
+           CREATE TABLE  EMPLOYEES_REPARTITION(
+           EMPLOYEES_ID NUMBER(2),
+           ANIMAL_ID NUMBER(3));
+      
+    ALTER TABLE EMPLOYEES_REPARTITION
+    ADD CONSTRAINT EMPLOYEES_ID_FK FOREIGN KEY (EMPLOYEES_ID) REFERENCES EMPLOYEES(EMPLOYEES_ID);
+    ALTER TABLE EMPLOYEES_REPARTITION
+    ADD CONSTRAINT ANIMAL_ID_FK2 FOREIGN KEY (ANIMAL_ID) REFERENCES ANIMAL (ANIMAL_ID);
+    
+
+       CREATE TABLE TICKETS(
+       TICKETS_ID NUMBER(6) CONSTRAINTS TICKETS_ID_PK PRIMARY KEY,
+       PRICE DECIMAL(20,2),
+       TICKET_DATE DATE,
+       EMPLOYEES_ID NUMBER(2) , CONSTRAINT EMPLOYEES_ID_FK2 FOREIGN KEY (EMPLOYEES_ID) REFERENCES EMPLOYEES(EMPLOYEES_ID),
+       ZOO_ID NUMBER(3), CONSTRAINT ZOO_ID_FK2 FOREIGN KEY (ZOO_ID) REFERENCES ZOO (ZOO_ID),
+       CLIENT_ID NUMBER(2), CONSTRAINT CLIENT_ID_FK  FOREIGN KEY (CLIENT_ID) REFERENCES CLIENTS (CLIENT_ID));
+  alter table ZOO
+add (SITE VARCHAR2(150));
+
+alter table GUIDE
+drop column DESCRIPTIONS;
+
+alter table TICKETS
+add (DISCOUNT DECIMAL (20,2));
+
+alter table EMPLOYEES
+add (ZOO_ID NUMBER(3));
+
+alter table EMPLOYEES
+add constraint ZOO_ID_FK3 (ZOO_ID) references ZOO (ZOO_ID);  
+
+insert into ZOO (ZOO_ID,CITY,STREET,Nr,ZOO_NAME,OPENING_TIMES)  values (1,'Bucuresti','Strada Vadul Moldovei',4,'Gradina Zoologica Bucuresti','9AM');
+insert into ZOO (ZOO_ID,CITY,STREET,Nr,ZOO_NAME,OPENING_TIMES) values (2,'Bucov','Strada Daciei',11,'Parcul Memorial “Constantin Stere”','8AM');
+insert into ZOO (ZOO_ID,CITY,STREET,Nr,ZOO_NAME,OPENING_TIMES)  values (3,'Targoviste','Calea Domneasca',1,'Gradina Zoologica Targoviste','9AM');
+insert into ZOO (ZOO_ID,CITY,STREET,Nr,ZOO_NAME,OPENING_TIMES)  values (4,'Sibiu','Calea Dumbrăvii',142,'Gradina Zoologica Sibiu','8AM');
+insert into ZOO (ZOO_ID,CITY,STREET,Nr,ZOO_NAME,OPENING_TIMES) values (5,'Brasov','Strada Brazilor', 1,'Gradina Zoologica Brasov','9AM');  
+
+insert into CLIENTS (CLIENT_ID, SURNAME, GIVEN_NAME,STREET,CITY,COUNTRY,EMAIL) values (1,'Tataru','Olivia','Al.I.Cuza','Tecuci','Romania','tataruolivia@yahoo.com');
+insert into CLIENTS (CLIENT_ID, SURNAME, GIVEN_NAME,STREET,CITY,COUNTRY,EMAIL) values (2,'Anghel', 'Eduard','Soseaua Mihai Bravu','Bucuresti','Romania','angheleduard@gmail.com');
+insert into CLIENTS (CLIENT_ID, SURNAME, GIVEN_NAME,STREET,CITY,COUNTRY,EMAIL) values (3,'Lupu','Alexandru','Calea Domneasca','Targoviste','Romania','lupualexandr@yahoo.com');
+insert into CLIENTS  (CLIENT_ID, SURNAME, GIVEN_NAME,STREET,CITY,COUNTRY,EMAIL) values (4,'Blaga','Georgiana','Aleea El Greco','Sibiu','Romania','blagageorgiana@yahoo.com');
+insert into CLIENTS  (CLIENT_ID, SURNAME, GIVEN_NAME,STREET,CITY,COUNTRY,EMAIL) values (5,'Bondrea','Lacramioara','Strada Basel','Timisoara','Romania','bondrealacramioara@yahoo.com');
+insert into CLIENTS  (CLIENT_ID, SURNAME, GIVEN_NAME,STREET,CITY,COUNTRY,EMAIL) values (6,'Vlad','Maria','Strada 25 Octombrie','Tiraspol','Republica Moldova','vladmaria@outlook.com');
+insert into CLIENTS (CLIENT_ID, SURNAME, GIVEN_NAME,STREET,CITY,COUNTRY,EMAIL) values (7,'Lee','John','141st Street','New York','US','leejohn@yahoo.com');
+insert into CLIENTS (CLIENT_ID, SURNAME, GIVEN_NAME,STREET,CITY,COUNTRY,EMAIL)  values (8,'Brailescu','Ovidiu','Strada Aviatorilor','Oradea','Romania','brailescuovidiu@yahoo.com');
+insert into CLIENTS (CLIENT_ID, SURNAME, GIVEN_NAME,STREET,CITY,COUNTRY,EMAIL)  values (9,'Totolici','Cristina','Strada Al.I.Cuza','Tecuci','Romania','totolicicristina@yahoo.com');
+insert into CLIENTS (CLIENT_ID, SURNAME, GIVEN_NAME,STREET,CITY,COUNTRY,EMAIL)  values (10,'Lavric','Georgiana','Strada Vasile Alecsandri','Tecuci','Romania','lavricgeorgiana@gmail.com');
+
+
+insert into SPECIES  (SPECIES_ID,SPECIES_NAME,PHYSICAL_CHARACTERISTICS,DIET)  values (1,'Veverita zburatoare','Coloritul blanii variaza, dar este de obicei bej spre maro-roscat deasupra, cu inele negre in jurul ochilor mari, adaptati vederii de noapte, si al urechilor golase.','Conifere, nuci, fructe, frunze, lastari si muguri.');
+insert into SPECIES (SPECIES_ID,SPECIES_NAME,PHYSICAL_CHARACTERISTICS,DIET)  values (2,'Macacul Berber','Coada foarte scurta, are o creasta pe frunte si pe crestet. De obicei plata, se ridica atunci cand animalul este starnit.','Se hraneste cu fructe,radacini,frunze si insecte.');
+insert into SPECIES (SPECIES_ID,SPECIES_NAME,PHYSICAL_CHARACTERISTICS,DIET)  values (3,'Cangur pitic','Culoarea variază de la gri-cenuşiu la roşcat,  la femele culoarea fiind mai deschisă. Gâtul şi umerii au o culoarea brun-roşcată mai pronunţată.','Sunt animale erbivore, consumând iarbă şi plante ierboase. Rădăcinile suculente aprovizionează cangurii cu apă.');
+insert into SPECIES (SPECIES_ID,SPECIES_NAME,PHYSICAL_CHARACTERISTICS,DIET)  values (5,'Macac coada-de-leu','Pungile de la nivelul obrajilor le permit să stocheze o cantitate de hrană echivalentă cu capacitatea stomacului lor. Aceste pungi sunt folosite mai ales când animalele se grăbesc să adune hrană din cauza unor potenţiale pericole','Hrana principală este constituită din fructe şi o varietate de materiale vegetale (frunze, tulpini, flori, muguri, ciuperci). Ocazional mănâncă şi mamifere mici, insecte, broaşte sau şopârle.');
+insert into SPECIES (SPECIES_ID,SPECIES_NAME,PHYSICAL_CHARACTERISTICS,DIET)  values (4,'Lemur','Lemurienii cu coadă inelată sunt cele mai recunoscute primate din familia lemuridelor datorită cozii lungi, inelate, colorate în alb și negru','Sunt omnivori oportuniști având ca dietă principală fructe și frunze. Dieta lemurienilor conține și flori, rădăcini, semințe precum și insecte și larvele acestora.');
+
+insert into ANIMAL (ANIMAL_ID,GENDER,HEIGHT,MASS,AGE,CAGE_NUMBER,FEEDING_TIMES,SPECIES_ID) values (1,'femela',  0.024, 0.115 , 5 ,1,'8AM,3PM',1);
+insert into ANIMAL (ANIMAL_ID,GENDER,HEIGHT,MASS,AGE,CAGE_NUMBER,FEEDING_TIMES,SPECIES_ID) values (2,'mascul', 0.03 ,0.140 , 5 ,1, '8AM,3PM',1);
+insert into ANIMAL (ANIMAL_ID,GENDER,HEIGHT,MASS,AGE,CAGE_NUMBER,FEEDING_TIMES,SPECIES_ID) values (3,'femela', 0.04, 3.5 , 15 ,1, '10AM,7PM',2);
+insert into ANIMAL (ANIMAL_ID,GENDER,HEIGHT,MASS,AGE,CAGE_NUMBER,FEEDING_TIMES,SPECIES_ID) values (4,'mascul', 0.061 ,7.1,  16 ,1, '10AM,7PM',2);
+insert into ANIMAL (ANIMAL_ID,GENDER,HEIGHT,MASS,AGE,CAGE_NUMBER,FEEDING_TIMES,SPECIES_ID) values (5,'femela', 0.066 ,15, 12, 1, '8AM,7PM',3);
+insert into ANIMAL (ANIMAL_ID,GENDER,HEIGHT,MASS,AGE,CAGE_NUMBER,FEEDING_TIMES,SPECIES_ID) values (6,'mascul', 0.07 ,20, 15 ,1,  '8AM,7PM',3);
+insert into ANIMAL (ANIMAL_ID,GENDER,HEIGHT,MASS,AGE,CAGE_NUMBER,FEEDING_TIMES,SPECIES_ID) values (7,'femela',  0.04, 10, 15,1, '6AM,11AM,7PM',4);
+insert into ANIMAL (ANIMAL_ID,GENDER,HEIGHT,MASS,AGE,CAGE_NUMBER,FEEDING_TIMES,SPECIES_ID) values (8,'mascul',  0.08, 23, 12, 1, '6AM,11AM,7PM',4);
+insert into ANIMAL (ANIMAL_ID,GENDER,HEIGHT,MASS,AGE,CAGE_NUMBER,FEEDING_TIMES,SPECIES_ID) values (9,'mascul',  0.01, 2, 1 ,1, '6AM,11AM,7PM',4);
+insert into ANIMAL (ANIMAL_ID,GENDER,HEIGHT,MASS,AGE,CAGE_NUMBER,FEEDING_TIMES,SPECIES_ID) values (10,'femela',  0.039,  1.5, 10, 1, '12AM,5PM',5);
+insert into ANIMAL  (ANIMAL_ID,GENDER,HEIGHT,MASS,AGE,CAGE_NUMBER,FEEDING_TIMES,SPECIES_ID) values (11,'mascul',   0.046,  2, 15, 1,'12AM,5PM',5);
+insert into ANIMAL (ANIMAL_ID,GENDER,HEIGHT,MASS,AGE,CAGE_NUMBER,FEEDING_TIMES,SPECIES_ID) values (12,'femela',  0.041,  1.9, 11, 3, '12AM,5PM',5);  
+insert into ANIMAL (ANIMAL_ID,GENDER,HEIGHT,MASS,AGE,CAGE_NUMBER,FEEDING_TIMES,SPECIES_ID) values (13,'mascul',   0.054,  2.4 , 14, 3,'12AM,5PM',5);
+
+insert into GUIDE (ANIMAL_ID,ZOO_ID) values (1,1);
+insert into GUIDE (ANIMAL_ID,ZOO_ID)  values (2,1); 
+
+insert into GUIDE (ANIMAL_ID,ZOO_ID) values (3,2);
+
+insert into GUIDE (ANIMAL_ID,ZOO_ID) values (4,2);
+insert into GUIDE (ANIMAL_ID,ZOO_ID) values (5,3);
+insert into GUIDE (ANIMAL_ID,ZOO_ID) values (6,3);
+insert into GUIDE  (ANIMAL_ID,ZOO_ID) values (7,4);
+insert into GUIDE (ANIMAL_ID,ZOO_ID)  values (8,4);
+insert into GUIDE  (ANIMAL_ID,ZOO_ID)values (9,4);
+insert into GUIDE (ANIMAL_ID,ZOO_ID) values (10,5);
+insert into GUIDE   (ANIMAL_ID,ZOO_ID) values (11,5);
+insert into GUIDE   (ANIMAL_ID,ZOO_ID) values (12,1);
+insert into GUIDE (ANIMAL_ID,ZOO_ID)  values (13,1);
+
+insert into EMPLOYEES (EMPLOYEES_ID,SURNAME,GIVEN_NAME,TELEPHONE,DEPARTMENTS,SALARY) values (1,'Gica','Ioan','0741785866','Hranire animale',42300);
+insert into EMPLOYEES (EMPLOYEES_ID,SURNAME,GIVEN_NAME,TELEPHONE,DEPARTMENTS,SALARY) values (2,'Popescu','Maria','0741705899','Hranire animale',42000);
+insert into EMPLOYEES (EMPLOYEES_ID,SURNAME,GIVEN_NAME,TELEPHONE,DEPARTMENTS,SALARY) values (3,'Georgescu','Mihai','0741785877','Hranire animale',4000);
+insert into EMPLOYEES (EMPLOYEES_ID,SURNAME,GIVEN_NAME,TELEPHONE,DEPARTMENTS,SALARY) values (4,'Milea','Andrei','0741785699','Hranire animale',4500);
+insert into EMPLOYEES (EMPLOYEES_ID,SURNAME,GIVEN_NAME,TELEPHONE,DEPARTMENTS,SALARY) values (5,'Neamtu','Vasile','0741785700','Hranire animale',3900);
+
+insert into EMPLOYEES (EMPLOYEES_ID,SURNAME,GIVEN_NAME,TELEPHONE,DEPARTMENTS,SALARY) values (6,'Galatoiu','Aurelia','0741789744','Hranire animale',4123);
+insert into EMPLOYEES (EMPLOYEES_ID,SURNAME,GIVEN_NAME,TELEPHONE,DEPARTMENTS,SALARY) values (7,'Nica','Laura','0741256755','Vanzare bilete',3500);
+insert into EMPLOYEES (EMPLOYEES_ID,SURNAME,GIVEN_NAME,TELEPHONE,DEPARTMENTS,SALARY) values (8,'Gradinaru','Adrian','0786543577','Vanzare bilete',3245);
+insert into EMPLOYEES (EMPLOYEES_ID,SURNAME,GIVEN_NAME,TELEPHONE,DEPARTMENTS,SALARY) values (9,'Ciobarca','Dorel','0743275908','Vanzare bilete',3000);
+insert into EMPLOYEES (EMPLOYEES_ID,SURNAME,GIVEN_NAME,TELEPHONE,DEPARTMENTS,SALARY) values (10,'Chicos','Daniel','0742354769','Vanzare bilete',2987);
+insert into EMPLOYEES (EMPLOYEES_ID,SURNAME,GIVEN_NAME,TELEPHONE,DEPARTMENTS,SALARY) values (11,'Chicos', 'Elisa','0741237497','Vanzare bilete',2900);
+
+
+insert into EMPLOYEES_REPARTITION (EMPLOYEES_ID,ANIMAL_ID) values (1,1);
+insert into EMPLOYEES_REPARTITION (EMPLOYEES_ID,ANIMAL_ID) values (1,2);
+insert into EMPLOYEES_REPARTITION (EMPLOYEES_ID,ANIMAL_ID) values (2,12);
+insert into EMPLOYEES_REPARTITION (EMPLOYEES_ID,ANIMAL_ID) values (2,13);
+insert into EMPLOYEES_REPARTITION  (EMPLOYEES_ID,ANIMAL_ID) values (3,3);
+insert into EMPLOYEES_REPARTITION (EMPLOYEES_ID,ANIMAL_ID)  values (3,4);
+insert into EMPLOYEES_REPARTITION (EMPLOYEES_ID,ANIMAL_ID)  values (4,5);
+insert into EMPLOYEES_REPARTITION  (EMPLOYEES_ID,ANIMAL_ID) values (4,6);
+insert into EMPLOYEES_REPARTITION (EMPLOYEES_ID,ANIMAL_ID)  values (5,7);
+insert into EMPLOYEES_REPARTITION (EMPLOYEES_ID,ANIMAL_ID)  values (5,8);
+insert into EMPLOYEES_REPARTITION  (EMPLOYEES_ID,ANIMAL_ID) values (5,9);
+insert into EMPLOYEES_REPARTITION  (EMPLOYEES_ID,ANIMAL_ID) values (6,10);
+insert into EMPLOYEES_REPARTITION  (EMPLOYEES_ID,ANIMAL_ID) values (6,11);
+
+insert into TICKETS (TICKETS_ID,PRICE,TICKET_DATE,EMPLOYEES_ID,ZOO_ID,CLIENT_ID,DISCOUNT)  values (1,  13,  to_date('01-09-2020', 'dd-mm-yyyy'),  7,  1,  1, 0.5);
+insert into TICKETS (TICKETS_ID,PRICE,TICKET_DATE,EMPLOYEES_ID,ZOO_ID,CLIENT_ID,DISCOUNT) values (2,  13,  to_date('01-10-2020', 'dd-mm-yyyy'),  7,  1,  2,  0);
+insert into TICKETS (TICKETS_ID,PRICE,TICKET_DATE,EMPLOYEES_ID,ZOO_ID,CLIENT_ID,DISCOUNT) values (3,   7,   to_date('01-11-2020', 'dd-mm-yyyy'),  9  ,3,  3,0   );
+insert into TICKETS (TICKETS_ID,PRICE,TICKET_DATE,EMPLOYEES_ID,ZOO_ID,CLIENT_ID,DISCOUNT) values (4,   3,   to_date('15-11-2020', 'dd-mm-yyyy'),  10,  4  ,4,  0);
+insert into TICKETS (TICKETS_ID,PRICE,TICKET_DATE,EMPLOYEES_ID,ZOO_ID,CLIENT_ID,DISCOUNT) values (5,  20,  to_date('01-07-2020', 'dd-mm-yyyy'),  11,  5  ,5,  0.5);
+insert into TICKETS  (TICKETS_ID,PRICE,TICKET_DATE,EMPLOYEES_ID,ZOO_ID,CLIENT_ID,DISCOUNT) values (6,  13,  to_date('01-08-2020', 'dd-mm-yyyy'),  7,  1  ,6,  0);
+insert into TICKETS (TICKETS_ID,PRICE,TICKET_DATE,EMPLOYEES_ID,ZOO_ID,CLIENT_ID,DISCOUNT) values (7,  10,  to_date('01-06-2020', 'dd-mm-yyyy'),  8,  2  ,7,  0.5);
+insert into TICKETS (TICKETS_ID,PRICE,TICKET_DATE,EMPLOYEES_ID,ZOO_ID,CLIENT_ID,DISCOUNT) values (8,  13,  to_date('01-09-2020', 'dd-mm-yyyy'),  7,  1  ,8,  0);
+insert into TICKETS  (TICKETS_ID,PRICE,TICKET_DATE,EMPLOYEES_ID,ZOO_ID,CLIENT_ID,DISCOUNT)values (9,  3  ,  to_date('11-09-2020', 'dd-mm-yyyy'),  10,  4  ,9,  0.5);
+insert into TICKETS(TICKETS_ID,PRICE,TICKET_DATE,EMPLOYEES_ID,ZOO_ID,CLIENT_ID,DISCOUNT)  values (10,  20,  to_date('21-09-2020', 'dd-mm-yyyy'),  11,  5  ,10,  0);
+
+
+UPDATE  ZOO   SET SITE='http://www.zoobucuresti.com/' WHERE ZOO_ID=1;  
+
+UPDATE ZOO SET SITE='https://www.zooploiesti.ro/' WHERE ZOO_ID=2;
+
+UPDATE ZOO SET SITE='http://zootargoviste.ro/' WHERE ZOO_ID=3;
+UPDATE  ZOO   SET SITE='https://www.zoosibiu.ro/' WHERE ZOO_ID=4;  
+UPDATE  ZOO   SET SITE='https://zoobrasov.ro/' WHERE ZOO_ID=5;  
+
+
+
+UPDATE EMPLOYEES SET ZOO_ID=1 WHERE EMPLOYEES_ID=1;
+UPDATE EMPLOYEES SET ZOO_ID=1 WHERE EMPLOYEES_ID=2;
+UPDATE EMPLOYEES SET ZOO_ID=2 WHERE EMPLOYEES_ID=3;
+UPDATE EMPLOYEES SET ZOO_ID=3 WHERE EMPLOYEES_ID=4;
+UPDATE EMPLOYEES SET ZOO_ID=4 WHERE EMPLOYEES_ID=5;
+UPDATE EMPLOYEES SET ZOO_ID=5 WHERE EMPLOYEES_ID=6;
+UPDATE EMPLOYEES SET ZOO_ID=1 WHERE EMPLOYEES_ID=7;
+UPDATE EMPLOYEES SET ZOO_ID=2 WHERE EMPLOYEES_ID=8;
+UPDATE EMPLOYEES SET ZOO_ID=3 WHERE EMPLOYEES_ID=9;
+UPDATE EMPLOYEES SET ZOO_ID=4 WHERE EMPLOYEES_ID=10;
+UPDATE EMPLOYEES SET ZOO_ID=5 WHERE EMPLOYEES_ID=11;
+
+alter table EMPLOYEES 
+add MANAGER_ID number(3); 
+
+insert into EMPLOYEES (EMPLOYEES_ID,SURNAME,GIVEN_NAME,TELEPHONE,DEPARTMENTS,SALARY,ZOO_ID,MANAGER_ID) values (12,'Panaite','Danut','0746345699','Management',60000,1,null ) ;
+update EMPLOYEES  set MANAGER_ID=12 where EMPLOYEES_ID=1;
+update EMPLOYEES  set MANAGER_ID=12 where EMPLOYEES_ID=2;
+update EMPLOYEES  set MANAGER_ID=12 where EMPLOYEES_ID=7;
+
+insert into EMPLOYEES (EMPLOYEES_ID,SURNAME,GIVEN_NAME,TELEPHONE,DEPARTMENTS,SALARY,ZOO_ID,MANAGER_ID) values(13,'Spasenie','Viorica','0734629800','Management',70000,2,null );
+update EMPLOYEES  set MANAGER_ID=13 where EMPLOYEES_ID=3;
+update EMPLOYEES  set MANAGER_ID=13 where EMPLOYEES_ID=8;
+
+
+insert into EMPLOYEES (EMPLOYEES_ID,SURNAME,GIVEN_NAME,TELEPHONE,DEPARTMENTS,SALARY,ZOO_ID,MANAGER_ID) values(14,'Spasenie','Doina','0734655800','Management',65000,3, null);
+update EMPLOYEES  set MANAGER_ID=14 where EMPLOYEES_ID=4;
+update EMPLOYEES  set MANAGER_ID=14 where EMPLOYEES_ID=9;
+
+insert into EMPLOYEES (EMPLOYEES_ID,SURNAME,GIVEN_NAME,TELEPHONE,DEPARTMENTS,SALARY,ZOO_ID,MANAGER_ID) values(15,'Caraus','Tincuta','0734889800','Management',67000,4,null );
+update EMPLOYEES  set MANAGER_ID=15 where EMPLOYEES_ID=10;
+update EMPLOYEES  set MANAGER_ID=15 where EMPLOYEES_ID=5;
+
+
+insert into EMPLOYEES (EMPLOYEES_ID,SURNAME,GIVEN_NAME,TELEPHONE,DEPARTMENTS,SALARY,ZOO_ID,MANAGER_ID)values(16,'Dimofte','Vasile','0734600800','Management',71000,5, null);
+update EMPLOYEES  set MANAGER_ID=16 where EMPLOYEES_ID=6;
+update EMPLOYEES  set MANAGER_ID=16 where EMPLOYEES_ID=11;
+
+
+
+--Pentru a nu modifica valorile originale vom realiza tabele virtuale
+
+create or replace view V_EMPLOYEES as select * from EMPLOYEES;
+create or replace view V_ANIMAL as select * from ANIMAL;
+create or replace view V_CLIENTS as select * from CLIENTS;
+create or replace view V_EMPLOYEES_REPARTITION as select * from EMPLOYEES_REPARTITION;
+create or replace view V_GUIDE as select * from GUIDE;
+create or replace view V_SPECIES as select * from SPECIES;
+create or replace view V_TICKETS as select * from TICKETS;
+create or replace view V_ZOO as select * from ZOO;
